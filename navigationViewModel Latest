@@ -1,0 +1,669 @@
+
+/// <summary>
+/// ViewModel - [ "The Connector" ]
+/// ViewModel exposes data contained in the Model objects to the View. The ViewModel performs 
+/// all modifications made to the Model data.
+/// </summary>
+
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Windows;
+using System.Windows.Data;
+using System.Windows.Input;
+using MainProject.Model;
+using MainProject.Database;
+using System.Data.SQLite;
+
+namespace MainProject.ViewModel
+{
+  class NavigationViewModel : INotifyPropertyChanged
+  {
+    // Database Instance for student and teacher data management 
+    MainDatabase DBobj = MainDatabase.GetInstance();
+
+    // CollectionViewSource enables XAML code to set the commonly used CollectionView properties,
+    // passing these settings to the underlying view.
+    private CollectionViewSource MenuItemsCollection;
+
+    // ICollectionView enables collections to have the functionalities of current record management,
+    // custom sorting, filtering, and grouping.
+    public ICollectionView SourceCollection => MenuItemsCollection.View;
+
+    public NavigationViewModel()
+    {
+      // ObservableCollection represents a dynamic data collection that provides notifications when items
+      // get added, removed, or when the whole list is refreshed.
+      ObservableCollection<MenuItems> menuItems = new ObservableCollection<MenuItems>
+            {
+                new MenuItems { MenuName = "Student", MenuImage = @"C:/Users/yevlea/MainProject/Assets/Student.png" },
+                new MenuItems { MenuName = "Teacher", MenuImage = @"C:/Users/yevlea/MainProject/Assets/Teacher4.png" },
+                new MenuItems { MenuName = "Courses", MenuImage = @"C:/Users/yevlea/MainProject/Assets/Course.png" },
+            };
+
+      MenuItemsCollection = new CollectionViewSource { Source = menuItems };
+      MenuItemsCollection.Filter += MenuItems_Filter;
+
+      // Set Startup Page
+      SelectedViewModel = new StartupViewModel();
+    }
+
+    // Implement interface member for INotifyPropertyChanged.
+    public event PropertyChangedEventHandler PropertyChanged;
+    private void OnPropertyChanged(string propName)
+    {
+      PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
+    }
+
+    // Text Search Filter.
+    private string filterText;
+    public string FilterText
+    {
+      get => filterText;
+      set
+      {
+        filterText = value;
+        MenuItemsCollection.View.Refresh();
+        OnPropertyChanged("FilterText");
+      }
+    }
+
+    private void MenuItems_Filter(object sender, FilterEventArgs e)
+    {
+      if (string.IsNullOrEmpty(FilterText))
+      {
+        e.Accepted = true;
+        return;
+      }
+
+      MenuItems _item = e.Item as MenuItems;
+      if (_item.MenuName.ToUpper().Contains(FilterText.ToUpper()))
+      {
+        e.Accepted = true;
+      }
+      else
+      {
+        e.Accepted = false;
+      }
+    }
+
+    // Select ViewModel
+    private object _selectedViewModel;
+    public object SelectedViewModel
+    {
+      get => _selectedViewModel;
+      set
+      {
+        _selectedViewModel = value;
+        OnPropertyChanged("SelectedViewModel");
+      }
+    }
+
+    // Switch Views
+    public void SwitchViews(object parameter)
+    {
+      switch (parameter)
+      {
+        case "Student":
+          SelectedViewModel = new StudentViewModel();
+          break;
+
+        case "Teacher":
+          SelectedViewModel = new TeacherViewModel();
+          break;
+
+        case "Courses":
+          SelectedViewModel = new StartupViewModel();
+          break;
+
+        default:
+          SelectedViewModel = new StartupViewModel();
+          break;
+      }
+    }
+
+    // Menu Button Command
+    private ICommand _menucommand;
+    public ICommand MenuCommand
+    {
+      get
+      {
+        if (_menucommand == null)
+        {
+          _menucommand = new RelayCommand(param => SwitchViews(param));
+        }
+        return _menucommand;
+      }
+    }
+
+    // Show StudentLogin View
+    public void StudentMenu(object parameter)
+    {
+      DBobj.CreateConnection();
+      switch (parameter)
+      {
+        case "Login":
+          SelectedViewModel = new StudentLoginViewModel();
+          break;
+        case "Register":
+          SelectedViewModel = new StudentRegisterViewModel();
+          break;
+      }
+    }
+
+    // This StudentLogin button Command
+    private ICommand _StudentMenucommand;
+    public ICommand ThisStudentMenuCommand
+    {
+      get
+      {
+        if (_StudentMenucommand == null)
+        {
+          _StudentMenucommand = new RelayCommand(param => StudentMenu(param));
+        }
+        return _StudentMenucommand;
+      }
+    }
+
+    // Show Student View
+    private void ShowStudent()
+    {
+      SelectedViewModel = new StudentViewModel();
+    }
+
+    // Back button Command
+    private ICommand _backStudentCommand;
+    public ICommand BackStudentCommand
+    {
+      get
+      {
+        if (_backStudentCommand == null)
+        {
+          _backStudentCommand = new RelayCommand(p => ShowStudent());
+        }
+        return _backStudentCommand;
+      }
+    }
+
+    // <----------------------- Login Section ----------------------->
+
+    // Show Teacher Menu View
+    public void TeacherMenu(object parameter)
+    {
+      switch (parameter)
+      {
+        case "Login":
+          SelectedViewModel = new TeacherLoginViewModel();
+          break;
+        case "Register":
+          SelectedViewModel = new TeacherRegisterViewModel();
+          break;
+      }
+    }
+
+    // This Teacher Menu button Command
+    private ICommand _TeacherMenucommand;
+    public ICommand ThisTeacherMenuCommand
+    {
+      get
+      {
+        if (_TeacherMenucommand == null)
+        {
+          _TeacherMenucommand = new RelayCommand(param => TeacherMenu(param));
+        }
+        return _TeacherMenucommand;
+      }
+    }
+
+
+
+    // Show Teacher View
+    private void ShowTeacher()
+    {
+      SelectedViewModel = new TeacherViewModel();
+    }
+
+    // Back button Command
+    private ICommand _backTeacherCommand;
+    public ICommand BackTeacherCommand
+    {
+      get
+      {
+        if (_backTeacherCommand == null)
+        {
+          _backTeacherCommand = new RelayCommand(p => ShowTeacher());
+        }
+        return _backTeacherCommand;
+      }
+    }
+    // <--------------------- Error Message --------------------->
+
+    private string _ErrorMessage;
+    public string ErrorMessage
+    {
+      get { return _ErrorMessage; }
+      set
+      {
+        _ErrorMessage = value;
+        OnPropertyChanged("ErrorMessage");
+      }
+    }
+
+    // <--------------------- Teacher Login Button Command ----------------------->
+
+
+    private void LoginTeacher()
+    {
+      if (tchrLoginEMail == null || tchrLoginPassword == null)
+      {
+        ErrorMessage = "Please enter Details";
+        // MessageBox.Show("Please Enter Details!!");
+      }
+      else
+      {
+        SQLiteConnection conn = new SQLiteConnection("Data Source=C:/Users/yevlea/MainProject/DataBase/Teacher_Portal.db;Version=3");
+        conn.Open();
+        SQLiteDataReader sqlite_datareader;
+        SQLiteCommand sqlite_cmd;
+        string createsql = "SELECT tchrEMail, tchrPassword FROM tblTeacher;";
+        sqlite_cmd = conn.CreateCommand();
+        sqlite_cmd.CommandText = createsql;
+        sqlite_datareader = sqlite_cmd.ExecuteReader();
+
+        while (sqlite_datareader.Read())
+        {
+          var tmpobj = new PropDatabase();
+          tmpobj.EMail = sqlite_datareader.GetString(0);
+          tmpobj.Password = sqlite_datareader.GetString(1);
+
+          while (tmpobj.EMail == tchrLoginEMail && tmpobj.Password == tchrLoginPassword)
+          {
+            MessageBox.Show("Login Successful.");
+            SelectedViewModel = new StartupViewModel();
+            break;
+          }
+        }
+        conn.Close();
+      }
+    }
+
+
+    // <---------- Properties of Front-End ---------->
+    private string _tchrLoginEMail;
+    public string tchrLoginEMail
+    {
+      get { return _tchrLoginEMail; }
+      set
+      {
+        _tchrLoginEMail = value;
+        OnPropertyChanged("tchrLoginEMail");
+      }
+    }
+    private string _tchrLoginPassword;
+    public string tchrLoginPassword
+    {
+      get { return _tchrLoginPassword; }
+      set
+      {
+        _tchrLoginPassword = value;
+        OnPropertyChanged("tchrLoginPassword");
+      }
+    }
+
+
+    // <---------- Login Button Commands ---------->
+    private ICommand _LoginTeacherCommand;
+    public ICommand LoginTeacherCommand
+    {
+      get
+      {
+        if (_LoginTeacherCommand == null)
+        {
+          _LoginTeacherCommand = new RelayCommand(p => LoginTeacher());
+        }
+        return _LoginTeacherCommand;
+      }
+    }
+
+
+
+    // <--------------------- Teacher Register Button Command ----------------------->
+
+    // register Button Execute
+    private void RegisterTeacher()
+    {
+      if (tchrFirstName == null || tchrLastName == null || tchrEmployeeNumber == null || tchrMobileNumber == null || tchrEMail == null || tchrCollege == null || tchrSubject == null || tchrPassword == null)
+      {
+        ErrorMessage = "Please Enter Details";
+      }
+      else
+      {
+        DBobj.CreateTeacherTable();
+        DBobj.InsertTeacherData(tchrFirstName, tchrLastName, tchrEmployeeNumber, tchrMobileNumber, tchrEMail, tchrCollege, tchrSubject, tchrPassword);
+        MessageBox.Show("Registration Done Successfully.");
+      }// LoginTeacher.View.Refresh();
+    }
+
+    // register button Command
+    private ICommand _RegisterTeacherCommand;
+    public ICommand RegisterTeacherCommand
+    {
+      get
+      {
+        if (_RegisterTeacherCommand == null)
+        {
+          _RegisterTeacherCommand = new RelayCommand(p => RegisterTeacher());
+        }
+        return _RegisterTeacherCommand;
+      }
+    }
+
+    // Properties of Registration page
+    private string _tchrFirstName;
+    public string tchrFirstName
+    {
+      get { return _tchrFirstName; }
+      set
+      {
+        _tchrFirstName = value;
+        OnPropertyChanged("tchrFirstName");
+      }
+    }
+    private string _tchrLastName;
+    public string tchrLastName
+    {
+      get { return _tchrLastName; }
+      set
+      {
+        _tchrLastName = value;
+        OnPropertyChanged("tchrLastName");
+      }
+    }
+    private string _tchrEmployeeNumber;
+    public string tchrEmployeeNumber
+    {
+      get { return _tchrEmployeeNumber; }
+      set
+      {
+        _tchrEmployeeNumber = value;
+        OnPropertyChanged("tchrEmployeeNumber");
+      }
+    }
+    private string _tchrMobileNumber;
+    public string tchrMobileNumber
+    {
+      get { return _tchrMobileNumber; }
+      set
+      {
+        _tchrMobileNumber = value;
+        OnPropertyChanged("tchrMobileNumber");
+      }
+    }
+    private string _tchrEMail;
+    public string tchrEMail
+    {
+      get { return _tchrEMail; }
+      set
+      {
+        _tchrEMail = value;
+        OnPropertyChanged("tchrEMail");
+      }
+    }
+    private string _tchrCollege;
+    public string tchrCollege
+    {
+      get { return _tchrCollege; }
+      set
+      {
+        _tchrCollege = value;
+        OnPropertyChanged("tchrCollege");
+      }
+    }
+    private string _tchrSubject;
+    public string tchrSubject
+    {
+      get { return _tchrSubject; }
+      set
+      {
+        _tchrSubject = value;
+        OnPropertyChanged("tchrSubject");
+      }
+    }
+    private string _tchrPassword;
+    public string tchrPassword
+    {
+      get { return _tchrPassword; }
+      set
+      {
+        _tchrPassword = value;
+        OnPropertyChanged("tchrPassword");
+      }
+    }
+
+
+
+
+    // <--------------------- Student Login Button Command ----------------------->
+
+
+    private void LoginStudent()
+    {
+      if (stdLoginEMail == null || stdLoginPassword == null)
+      {
+        ErrorMessage = "Please enter Details";
+        // MessageBox.Show("Please Enter Details!!");
+      }
+      else
+      {
+        SQLiteConnection conn = new SQLiteConnection("Data Source=C:/Users/yevlea/MainProject/DataBase/Student_Portal.db;Version=3");
+        conn.Open();
+        SQLiteDataReader sqlite_datareader;
+        SQLiteCommand sqlite_cmd;
+        string createsql = "SELECT stdEMail, stdPassword FROM tblStudent;";
+        sqlite_cmd = conn.CreateCommand();
+        sqlite_cmd.CommandText = createsql;
+        sqlite_datareader = sqlite_cmd.ExecuteReader();
+
+        var y = new StudentLoginItems();
+
+        while (sqlite_datareader.Read())
+        {
+          var tmpobj = new PropDatabase();
+          tmpobj.EMail = sqlite_datareader.GetString(0);
+          tmpobj.Password = sqlite_datareader.GetString(1);
+          // dblist.Add(tmpobj);
+          if (tmpobj.EMail == stdLoginEMail && tmpobj.Password == stdLoginPassword)
+          {
+            MessageBox.Show("Login Successful.");
+            SelectedViewModel = new StartupViewModel();
+            break;
+          }
+        }
+        conn.Close();
+      }
+    }
+
+
+    // MessageBox.Show("Login Successfully.");
+
+
+    // <---------- Properties of Front-End ---------->
+    private string _stdLoginEMail;
+    public string stdLoginEMail
+    {
+      get { return _stdLoginEMail; }
+      set
+      {
+        _stdLoginEMail = value;
+        OnPropertyChanged("stdLoginEMail");
+      }
+    }
+    private string _stdLoginPassword;
+    public string stdLoginPassword
+    {
+      get { return _stdLoginPassword; }
+      set
+      {
+        _stdLoginPassword = value;
+        OnPropertyChanged("stdLoginPassword");
+      }
+    }
+
+
+    // <---------- Login Button Commands ---------->
+    private ICommand _LoginStudentCommand;
+    public ICommand LoginStudentCommand
+    {
+      get
+      {
+        if (_LoginStudentCommand == null)
+        {
+          _LoginStudentCommand = new RelayCommand(p => LoginStudent());
+        }
+        return _LoginStudentCommand;
+      }
+    }
+
+    // <--------------------- Student Register Button Command ----------------------->
+
+    // register Button Execute
+    private void RegisterStudent()
+    {
+      if (stdFirstName == null || stdLastName == null || stdEnrollNumber == null || stdMobileNumber == null || stdEMail == null || stdCollege == null || stdDispline == null || stdPassword == null)
+      {
+        ErrorMessage = "Please Enter Details!!";
+      }
+      else
+      {
+        DBobj.CreateStudentTable();
+        DBobj.InsertStudentData(stdFirstName, stdLastName, stdEnrollNumber, stdMobileNumber, stdEMail, stdCollege, stdDispline, stdPassword);
+        MessageBox.Show("Registration Done Successfully.");
+      }
+      // LoginStudent.View.Refresh();
+    }
+
+    // register button Command
+    private ICommand _RegisterStudentCommand;
+    public ICommand RegisterStudentCommand
+    {
+      get
+      {
+        if (_RegisterStudentCommand == null)
+        {
+          _RegisterStudentCommand = new RelayCommand(p => RegisterStudent());
+        }
+        return _RegisterStudentCommand;
+      }
+    }
+
+    // Properties of Registration page
+    private string _stdFirstName;
+    public string stdFirstName
+    {
+      get { return _stdFirstName; }
+      set
+      {
+        _stdFirstName = value;
+        OnPropertyChanged("stdFirstName");
+      }
+    }
+    private string _stdLastName;
+    public string stdLastName
+    {
+      get { return _stdLastName; }
+      set
+      {
+        _stdLastName = value;
+        OnPropertyChanged("stdLastName");
+      }
+    }
+    private string _stdEnrollNumber;
+    public string stdEnrollNumber
+    {
+      get { return _stdEnrollNumber; }
+      set
+      {
+        _stdEnrollNumber = value;
+        OnPropertyChanged("stdEnrollNumber");
+      }
+    }
+    private string _stdMobileNumber;
+    public string stdMobileNumber
+    {
+      get { return _stdMobileNumber; }
+      set
+      {
+        _stdMobileNumber = value;
+        OnPropertyChanged("stdMobileNumber");
+      }
+    }
+    private string _stdEMail;
+    public string stdEMail
+    {
+      get { return _stdEMail; }
+      set
+      {
+        _stdEMail = value;
+        OnPropertyChanged("stdEMail");
+      }
+    }
+    private string _stdCollege;
+    public string stdCollege
+    {
+      get { return _stdCollege; }
+      set
+      {
+        _stdCollege = value;
+        OnPropertyChanged("stdCollege");
+      }
+    }
+    private string _stdDispline;
+    public string stdDispline
+    {
+      get { return _stdDispline; }
+      set
+      {
+        _stdDispline = value;
+        OnPropertyChanged("stdDispline");
+      }
+    }
+    private string _stdPassword;
+    public string stdPassword
+    {
+      get { return _stdPassword; }
+      set
+      {
+        _stdPassword = value;
+        OnPropertyChanged("stdPassword");
+      }
+    }
+
+
+
+
+
+    // <--------------------- Close Command ----------------------->
+
+
+    // Close App
+    public void CloseApp(object obj)
+    {
+      MainWindow win = obj as MainWindow;
+      win.Close();
+    }
+
+    // Close App Command
+    private ICommand _closeCommand;
+    public ICommand CloseApStudentLoginommand
+    {
+      get
+      {
+        if (_closeCommand == null)
+        {
+          _closeCommand = new RelayCommand(p => CloseApp(p));
+        }
+        return _closeCommand;
+      }
+    }
+
+  }
+}
