@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-c:\Users\yevlea\MainProject\obj\Debug\net6.0-windows\
+c:\Users\Palak\Downloads\AllPracticals\MainProject\obj\Debug\net6.0-windows\
 MainProject
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-c:\Users\yevlea\MainProject\App.xaml
-81955217989
+c:\Users\Palak\Downloads\AllPracticals\MainProject\App.xaml
+13331901224
 
-20-37136531
-195-621846281
-DataTemplates.xaml;MainWindow.xaml;StartupView.xaml;StudentLoginView.xaml;StudentView.xaml;Styles.xaml;TeacherLoginView.xaml;TeacherView.xaml;
+301183853705
+195-2007712353
+CourseView.xaml;DataTemplates.xaml;MainWindow.xaml;StartupView.xaml;StudentAccountView.xaml;StudentInfoView.xaml;StudentLoginView.xaml;StudentRegisterView.xaml;StudentView.xaml;Styles.xaml;TeacherLoginView.xaml;TeacherRegisterView.xaml;TeacherView.xaml;
 
 True
 

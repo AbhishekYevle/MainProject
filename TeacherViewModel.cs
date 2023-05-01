@@ -15,8 +15,8 @@ namespace MainProject.ViewModel
     {
       ObservableCollection<TeacherItems> TeacherItems = new ObservableCollection<TeacherItems>
             {
-                new TeacherItems { TeacherName = "Login", TeacherImage = @"C:/Users/yevlea/MainProject/Assets/login1.png" },
-                new TeacherItems { TeacherName = "Register", TeacherImage = @"C:/Users/yevlea/MainProject/Assets/verify1.png" },
+                new TeacherItems { TeacherName = "Login", TeacherImage = @"C:/Users/Palak/Downloads/AllPracticals/MainProject/Assets/login1.png" },
+                new TeacherItems { TeacherName = "Register", TeacherImage = @"C:/Users/Palak/Downloads/AllPracticals/MainProject/Assets/verify1.png" },
             };
 
       TeacherItemsCollection = new CollectionViewSource { Source = TeacherItems };
@@ -24,6 +24,7 @@ namespace MainProject.ViewModel
 
     public event PropertyChangedEventHandler PropertyChanged;
     private void OnPropertyChanged(string propName)
+
     {
       PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(propName));
     }

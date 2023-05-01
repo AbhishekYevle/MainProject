@@ -176,7 +176,7 @@
         <Setter Property="MinWidth" 
                 Value="250"/>
         <Setter Property="FontFamily"
-                Value="C:/Users/yevlea/MainProject/Fonts/OpenSans-Regular.ttf #Open Sans Regular" />
+                Value="C:/Users/Palak/Downloads/AllPracticals/MainProject/Fonts/OpenSans-Regular.ttf #Open Sans Regular" />
         <Setter Property="Background"
                 Value="#E2DFD2" />
         <Setter Property="Foreground"
@@ -216,7 +216,7 @@
         <Setter Property="FontSize" 
                 Value="24"/>
         <Setter Property="FontFamily"
-                Value="C:/Users/yevlea/MainProject/Fonts/OpenSans-Regular.ttf #Open Sans Regular" />
+                Value="C:/Users/Palak/Downloads/AllPracticals/MainProject/Fonts/OpenSans-Regular.ttf #Open Sans Regular" />
         <Setter Property="Foreground"
                 Value="#DDDDDD" />
         <Setter Property="MinHeight" 
@@ -229,6 +229,7 @@
                 Value="Center" />
    </Style>
 
+    
      <Style x:Key="LoginButtonStyle"
             TargetType="Button" >
         <Setter Property="Padding" 
@@ -244,7 +245,7 @@
         <Setter Property="Foreground"
                 Value="#ECF0F1" />
         <Setter Property="FontFamily"
-                Value="C:/Users/yevlea/MainProject/Fonts/OpenSans-Regular.ttf #Open Sans Regular" />
+                Value="C:/Users/Palak/Downloads/AllPracticals/MainProject/Fonts/OpenSans-Regular.ttf #Open Sans Regular" />
         <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
                     <Setter Property="Background" Value="Red"/>
@@ -253,8 +254,8 @@
         </Style.Triggers>
      </Style>
 
-    <ImageBrush x:Key="def_img" ImageSource="C:/Users/yevlea/MainProject/Assets/close_icon.png" Stretch="None"/>
-    <ImageBrush x:Key="mo_img" ImageSource="C:/Users/yevlea/MainProject/Assets/close_mo_icon.png" Stretch="None" />
+    <ImageBrush x:Key="def_img" ImageSource="C:/Users/Palak/Downloads/AllPracticals/MainProject/Assets/close_icon.png" Stretch="None"/>
+    <ImageBrush x:Key="mo_img" ImageSource="C:/Users/Palak/Downloads/AllPracticals/MainProject/Assets/close_mo_icon.png" Stretch="None" />
 
     <!--// Main Close Button Style //-->
     <Style x:Key="CloseBtn_Style"
@@ -294,6 +295,28 @@
             </Setter.Value>
         </Setter>
     </Style>
+
+    <!--// Label Style //-->
+    
+    <Style x:Key="LabelStyle"
+           TargetType="Label" >
+       
+        <Setter Property="FontSize" 
+                Value="20"/>
+        <Setter Property="FontFamily"
+                Value="C:/Users/Palak/Downloads/AllPracticals/MainProject/Fonts/OpenSans-Regular.ttf #Open Sans Regular" />
+        <Setter Property="Foreground"
+                Value="#CCCCFF" />
+        <Setter Property="MinHeight" 
+                Value="20"/>
+        <Setter Property="MinWidth" 
+                Value="250"/>
+        <Setter Property=" VerticalAlignment" 
+                Value="Center" />
+        <Setter Property="HorizontalAlignment" 
+                Value="Center" />
+   </Style>
+
 
     <!--// Menu Button Style //-->
     <Style x:Key="MenuButtonStyle"
@@ -384,6 +407,7 @@
     </Style>
 
     <!--// Grid Button Style //-->
+    
     <Style x:Key="GridButtonStyle"
            TargetType="RadioButton">
 
@@ -508,5 +532,94 @@
             </Setter.Value>
         </Setter>
     </Style>
-
+    
 </ResourceDictionary>
+
+
+    <!-- <Style x:Key="CourseButtonStyle"
+           TargetType="RadioButton">      
+
+        <Setter Property="Template">
+            <Setter.Value>
+                <ControlTemplate TargetType="RadioButton">
+
+                    <Grid Margin="0,0,0,0">
+
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="100" />
+                        </Grid.ColumnDefinitions>
+
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="90" />
+                            <RowDefinition Height="40" />
+                        </Grid.RowDefinitions>
+
+                        <Border x:Name="border"
+                                Background="Transparent"
+                                CornerRadius="6"
+                                BorderThickness="0" />
+
+                        <Image x:Name="SidebarRadioButtonMenuIcon"
+                               Grid.Row="0"
+                               Stretch="None"
+                               Source="{Binding Path=Tag, RelativeSource={RelativeSource TemplatedParent}}"
+                               HorizontalAlignment="Center"
+                               VerticalAlignment="Center"
+                               Margin="0,0,0,20" />
+
+                        <TextBlock x:Name="SidebarRadioButtonMenuText"
+                                   Grid.Row="0"
+                                   Text="{TemplateBinding Property=Content}"
+                                   VerticalAlignment="Bottom"
+                                   HorizontalAlignment="Center"
+                                   Foreground="#E8EAEC"
+                                   FontSize="14"
+                                   FontFamily="C:/Users/Palak/Downloads/AllPracticals/MainProject/Fonts/Roboto-Regular.ttf #Roboto Regular"
+                                   Margin="0,0,0,10" />                  
+
+                    </Grid>
+
+
+                    <ControlTemplate.Triggers>
+
+                        <Trigger Property="IsMouseOver"
+                                 Value="True">
+
+                            <Setter Property="Background"
+                                    TargetName="border"
+                                    Value="#272727" />
+
+                            <Setter Property="BorderBrush"
+                                    TargetName="border"
+                                    Value="#8C8C8C" />
+
+                            <Setter Property="BorderThickness"
+                                    TargetName="border"
+                                    Value="3" />
+
+                        </Trigger>
+
+                        <Trigger Property="IsChecked"
+                                 Value="True">
+
+                            <Setter Property="Background"
+                                    TargetName="border"
+                                    Value="#272727" />
+
+                            <Setter Property="BorderBrush"
+                                    TargetName="border"
+                                    Value="#8C8C8C" />
+
+                            <Setter Property="BorderThickness"
+                                    TargetName="border"
+                                    Value="3" />
+
+                        </Trigger>
+
+                    </ControlTemplate.Triggers>
+                </ControlTemplate>
+            </Setter.Value>
+        </Setter>
+    </Style>
+ -->
+

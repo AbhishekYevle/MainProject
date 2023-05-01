@@ -10,7 +10,7 @@
 
     <Grid Background="#303030">
 
-        <Image Source="C:/Users/yevlea/MainProject/Assets/graduated.png"
+        <Image Source="C:/Users/Palak/Downloads/AllPracticals/MainProject/Assets/graduated.png"
                Stretch="Uniform"  
                Margin="0,0,100,30" Height="140" Width="140" />
 

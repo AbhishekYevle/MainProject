@@ -26,19 +26,22 @@
     </UserControl.Style>
 
     <Grid Background="#303030">
+                        <!-- <ContentControl x:Name="Pages"
+                                Content="{Binding SelectedViewModel}"/> -->
+
 
         <RadioButton Height="40"
                      Width="40"
                      HorizontalAlignment="Left"
                      VerticalAlignment="Top"
-                     Tag="C:/Users/yevlea/MainProject/Assets/back_icon.png"
+                     Tag="C:/Users/Palak/Downloads/AllPracticals/MainProject/Assets/back_icon.png"
                      Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.BackStudentCommand}"
                      Style="{StaticResource StudentButtonStyle}"
                      Margin="0,10,0,0" />
 
-        <TextBlock Text="Student  >  This StudentLogin"
+        <TextBlock Text="Student  >  This Student Login"
                    FontSize="24"
-                   FontFamily="C:/Users/yevlea/MainProject/Fonts/OpenSans-Regular.ttf #Open Sans Regular"
+                   FontFamily="C:/Users/Palak/Downloads/AllPracticals/MainProject/Fonts/OpenSans-Regular.ttf #Open Sans Regular"
                    Foreground="#DDDDDD"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
@@ -46,22 +49,32 @@
 
         <Grid Margin="0,60,0,0">
 
+
             <StackPanel >
-                <TextBlock Text="User Name"
+                <TextBlock Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.ErrorMessage, Mode=TwoWay}" 
+                           FontSize="22"
+                           FontFamily="C:/Users/Palak/Downloads/AllPracticals/MainProject/Fonts/OpenSans-Regular.ttf #Open Sans Regular"
+                           Foreground="#ff0000"
+                           HorizontalAlignment="Center"
+                           Margin="0,12,0,0"/>
+
+                <TextBlock Text="Email"
                            Style="{StaticResource LoginBlockStyle}" />
                 
-                <TextBox Text="{Binding Path=StudentName, Mode=TwoWay}"
-                         Style="{StaticResource LoginBoxStyle}"  
+                <TextBox Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.stdLoginEMail, Mode=TwoWay}"
+                         Style="{StaticResource LoginBoxStyle}"
                          Height="50" 
                          Width="100"/>
+                         <!-- BorderBrush="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.ChangeColor, Mode=TwoWay}"/> -->
                 
                 <TextBlock Text="Password"
                            Style="{StaticResource LoginBlockStyle}" />
 
-                <TextBox Text="{Binding Path=StudentPassword, Mode=TwoWay}"
-                         Style="{StaticResource LoginBoxStyle}"  
+                <TextBox Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.stdLoginPassword, Mode=TwoWay}"
+                         Style="{StaticResource LoginBoxStyle}"
                          Height="50" 
-                         Width="100" />
+                         Width="100"/>
+                         <!-- BorderBrush="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.ChangeColor, Mode=TwoWay}" /> -->
 
                 <Button Name="btnStudentLogin"
                         Style="{StaticResource LoginButtonStyle}"  

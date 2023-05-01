@@ -44,7 +44,7 @@
                 Height="80"
                 Width="850">
 
-            <TextBlock Text="S T U D E N T"
+            <TextBlock Text="S T U D E N T    P O R T A L"
                        Style="{StaticResource HeaderStyle}"/>
 
         </Border>

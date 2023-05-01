@@ -23,6 +23,13 @@
         <view:StudentLoginView/>
     </DataTemplate>
 
+     <!--Course Page-->
+
+    <DataTemplate DataType="{x:Type viewmodel:StudentInfoViewModel}">
+        <view:StudentInfoView/>
+    </DataTemplate>
+
+
     <!--Teacher Page-->
     
     <DataTemplate DataType="{x:Type viewmodel:TeacherViewModel}">
@@ -34,5 +41,30 @@
     <DataTemplate DataType="{x:Type viewmodel:TeacherLoginViewModel}">
         <view:TeacherLoginView/>
     </DataTemplate>
+
+    <!-- StudentRegister Page -->
+
+    <DataTemplate DataType="{x:Type viewmodel:StudentRegisterViewModel}">
+        <view:StudentRegisterView/>
+    </DataTemplate>
+
+    <!-- STeacherRegister Page -->
+
+    <DataTemplate DataType="{x:Type viewmodel:TeacherRegisterViewModel}">
+        <view:TeacherRegisterView/>
+    </DataTemplate>
+
+    <!--Course Page-->
+
+    <DataTemplate DataType="{x:Type viewmodel:CourseViewModel}">
+        <view:CourseView/>
+    </DataTemplate>
+
+    <!--Course Page-->
+    
+    <DataTemplate DataType="{x:Type viewmodel:StudentAccountViewModel}">
+        <view:StudentAccountView/>
+    </DataTemplate>
+
  
 </ResourceDictionary>

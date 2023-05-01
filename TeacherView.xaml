@@ -30,7 +30,7 @@
 
         <TextBlock Text="Teacher Portal"
                    FontSize="24"
-                   FontFamily="C:/Users/yevlea/MainProject/Fonts/OpenSans-Regular.ttf #Open Sans Regular"
+                   FontFamily="C:/Users/Palak/Downloads/AllPracticals/MainProject/Fonts/OpenSans-Regular.ttf #Open Sans Regular"
                    Foreground="#DDDDDD"
                    HorizontalAlignment="Left"
                    VerticalAlignment="Top"
@@ -47,7 +47,7 @@
                 <DataTemplate>
                     <RadioButton Content="{Binding TeacherName}"
                                  CommandParameter="{Binding TeacherName}"
-                                 Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.ThisTeacherLoginCommand}"
+                                 Command="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type Window}}, Path=DataContext.ThisTeacherMenuCommand}"
                                  Tag="{Binding TeacherImage}"
                                  Style="{StaticResource GridButtonStyle}"
                                  GroupName="TeacherGroup" />

@@ -8,18 +8,18 @@ namespace MainProject.ViewModel
 {
   public class StudentViewModel : INotifyPropertyChanged
   {
-    private CollectionViewSource StudentItemsCollection;
-    public ICollectionView StudentSourceCollection => StudentItemsCollection.View;
+    private CollectionViewSource StudentMenuItemsCollection;
+    public ICollectionView StudentMenuSourceCollection => StudentMenuItemsCollection.View;
 
     public StudentViewModel()
     {
-      ObservableCollection<StudentItems> StudentItems = new ObservableCollection<StudentItems>
+      ObservableCollection<StudentMenuItems> StudentMenuItems = new ObservableCollection<StudentMenuItems>
             {
-                new StudentItems { StudentName = "Login", StudentImage = @"C:/Users/yevlea/MainProject/Assets/login1.png" },
-                new StudentItems { StudentName = "Register", StudentImage = @"C:/Users/yevlea/MainProject/Assets/verify1.png" },
+                new StudentMenuItems { StudentMenu = "Login", StudentMenuImage = @"C:/Users/Palak/Downloads/AllPracticals/MainProject/Assets/login1.png" },
+                new StudentMenuItems { StudentMenu = "Register", StudentMenuImage = @"C:/Users/Palak/Downloads/AllPracticals/MainProject/Assets/verify1.png" },
             };
 
-      StudentItemsCollection = new CollectionViewSource { Source = StudentItems };
+      StudentMenuItemsCollection = new CollectionViewSource { Source = StudentMenuItems };
     }
 
     public event PropertyChangedEventHandler PropertyChanged;
