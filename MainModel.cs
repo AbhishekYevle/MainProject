@@ -38,4 +38,7 @@ namespace MainProject.Model
     public string TeacherLoginName { get; set; }
     public string TeacherLoginImage { get; set; }
   }
+
+  // <----------------------- Database Section ----------------------->
+
 }

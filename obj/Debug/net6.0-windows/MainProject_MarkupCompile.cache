@@ -1,20 +1,20 @@
 ﻿MainProject
-
+1.0.0.0
 
 winexe
 C#
 .cs
-C:\Users\yevlea\MainProject\obj\Debug\net6.0-windows\
+c:\Users\yevlea\MainProject\obj\Debug\net6.0-windows\
 MainProject
 none
 false
 TRACE;DEBUG;NET;NET6_0;NETCOREAPP
-C:\Users\yevlea\MainProject\App.xaml
+c:\Users\yevlea\MainProject\App.xaml
 81955217989
 
-17843704679
-194-1617825143
+20-37136531
+195-621846281
 DataTemplates.xaml;MainWindow.xaml;StartupView.xaml;StudentLoginView.xaml;StudentView.xaml;Styles.xaml;TeacherLoginView.xaml;TeacherView.xaml;
 
-False
+True
 
