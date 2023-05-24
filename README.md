@@ -1,3 +1,3 @@
 # MainProject
 # SCREENSHOTS
-<img width="733" alt="Screenshot 2023-05-05 162225" src="https://github.com/AbhishekYevle/MainProject/assets/105035736/a1b181e6-52c2-42a8-9c2a-f78918d8d2f5">
+<img width="725" alt="Screenshot 2023-05-05 164912" src="https://github.com/AbhishekYevle/MainProject/assets/105035736/d842d8dd-94f6-4240-a88b-35b372b175a1">
